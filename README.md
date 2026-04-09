@@ -30,7 +30,16 @@ npm run dev
 API 엔드포인트: `POST /api/news/analyze`  
 Body 예: `{ "mode": "keyword", "keyword": "AI" }` 또는 `{ "mode": "today" }`.
 
+## 배포
+
+- **GitHub**: [fmercuryk/naver-realtime-news-summary](https://github.com/fmercuryk/naver-realtime-news-summary)
+- **Vercel 프로덕션**: [naver-realtime-news-summary.vercel.app](https://naver-realtime-news-summary.vercel.app)
+
+Vercel에서는 **Settings → Environment Variables**에 `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`, `OPENAI_API_KEY`(선택: `OPENAI_MODEL`)를 설정합니다.
+
 ## 참고
 
 - 네이버 검색 API 일일 호출 한도는 계정/앱 설정에 따릅니다.
 - 분석은 기사 **제목·스니펫(description)·날짜**만 사용하며, 원문 전문은 가져오지 않습니다.
+
+updated 2026.4.9.
