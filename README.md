@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 실시간 뉴스 요약
 
-## Getting Started
+네이버 뉴스 검색 API로 기사를 모으고, OpenAI로 **요약·중요 키워드·맥락적 감정·주제 분류·트렌드 인사이트**를 한 번에 보여 주는 Next.js 앱입니다.
 
-First, run the development server:
+## 사전 준비
+
+1. [네이버 developers](https://developers.naver.com/)에서 애플리케이션을 등록하고 **검색 API** 사용을 켠 뒤 `Client ID`, `Client Secret`을 발급합니다.
+2. [OpenAI API 키](https://platform.openai.com/api-keys)를 준비합니다.
+3. 프로젝트 루트에 `.env`를 만들고 [.env.example](.env.example)을 참고해 값을 채웁니다.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 실행
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 엽니다.
 
-## Learn More
+## 동작 요약
 
-To learn more about Next.js, take a look at the following resources:
+- **키워드**: 입력한 검색어로 뉴스를 최신순(`sort=date`)으로 가져옵니다. 네이버 API에 날짜 구간 파라미터가 없어 별도 날짜 필터는 적용하지 않습니다.
+- **오늘 / 이번 주**: 고정 검색어로 넉넉히 수집한 뒤 `pubDate` 기준으로 각각 24시간·7일 이내만 남깁니다.
+- **미국 주식 / 한국 주식**: 각각 `미국 주식`, `한국 주식`으로 검색하고 최근 7일로 필터합니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+API 엔드포인트: `POST /api/news/analyze`  
+Body 예: `{ "mode": "keyword", "keyword": "AI" }` 또는 `{ "mode": "today" }`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 참고
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 네이버 검색 API 일일 호출 한도는 계정/앱 설정에 따릅니다.
+- 분석은 기사 **제목·스니펫(description)·날짜**만 사용하며, 원문 전문은 가져오지 않습니다.
